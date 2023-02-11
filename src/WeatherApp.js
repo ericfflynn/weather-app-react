@@ -20,23 +20,23 @@ function WeatherApp() {
         }
     };
 
-    // useEffect (() => {
-    //     const clientID = config.clientID;
-    //     function getBackground(query) {
-    //         let citySearch = query.replace(/\s/g,"+");
-    //         let endpoint= `https://api.unsplash.com/photos/random/?client_id=${clientID}&query=${citySearch}`;
-    //         fetch(endpoint) 
-    //         .then(res => res.json())
-    //         .then(jsonData => setBackground(jsonData.urls.regular));
-    //     };
-    //     if (!location) {
-    //         getBackground("landscape")
-    //     }
-    //     else {
-    //         getBackground(location);
-    //         console.log('background loaded');
-    //     }
-    // }, [location]);
+    useEffect (() => {
+        const clientID = config.clientID;
+        function getBackground(query) {
+            let citySearch = query.replace(/\s/g,"+");
+            let endpoint= `https://api.unsplash.com/photos/random/?client_id=${clientID}&query=${citySearch}`;
+            fetch(endpoint) 
+            .then(res => res.json())
+            .then(jsonData => setBackground(jsonData.urls.regular));
+        };
+        if (!location) {
+            getBackground("landscape")
+        }
+        else {
+            getBackground(location);
+            console.log('background loaded');
+        }
+    }, [location]);
 
 
     return (
