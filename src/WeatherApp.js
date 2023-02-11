@@ -8,15 +8,22 @@ function WeatherApp() {
     const [background, setBackground] = useState('');
     const locationInput = useRef(null);
 
+    function clearInput(e) {
+        e.preventDefault();
+        locationInput.current.value = ''
+    }
+
     function handleClick(e) {
         e.preventDefault();
         setlocation(locationInput.current.value)
+        clearInput(e)
     };
 
     function handleEnter(e) {
         if (e.key === 'Enter') {
         e.preventDefault();
         setlocation(locationInput.current.value)
+        clearInput(e)
         }
     };
 
@@ -25,9 +32,11 @@ function WeatherApp() {
         function getBackground(query) {
             let citySearch = query.replace(/\s/g,"+");
             let endpoint= `https://api.unsplash.com/photos/random/?client_id=${clientID}&query=${citySearch}`;
+            
             fetch(endpoint) 
             .then(res => res.json())
             .then(jsonData => setBackground(jsonData.urls.regular));
+            console.log("Background Updated")
         };
         if (!location) {
             getBackground("landscape")
@@ -38,11 +47,16 @@ function WeatherApp() {
         }
     }, [location]);
 
-
     return (
         <div 
         className="background"
-         style={{backgroundImage: `url(${background})`}}>
+        style={{backgroundImage: `url(${background})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        width: '100vw',
+        height: '100vh'}}
+         >
             <div className="card">
                 <div className="search">
                     <input 
@@ -52,6 +66,7 @@ function WeatherApp() {
                         id="search" 
                         ref={locationInput}
                         onKeyDown={handleEnter}
+                        onFocus={clearInput}
                         />
                     <button
                         onClick={handleClick}
