@@ -2,7 +2,10 @@ import {useState, useEffect} from 'react';
 import config from './config.js'
 
 function WeatherWidget({location}) {
+
     const [data, setData] = useState(null);
+    const [isError, setIsError] = useState(false);
+
 
     function getLocalTime(timezone) {
         let date = new Date();
@@ -20,18 +23,27 @@ function WeatherWidget({location}) {
         const apiKey = config.apiKey;
         function fetchWeather(city) {
             fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`)
-            .then(res => res.json())
-            .then(obj => setData(obj));
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                throw new Error("Invalid City Name");
+            })
+            .then(obj => {
+                setData(obj);
+                setIsError(false);
+            })
+            .catch((error) => {
+                setIsError(true);
+            });
         };
 
         if (location) {
             fetchWeather(location);
-            console.log('request made');
+            console.log('request made');  
         }
     }, [location]);
 
-
-    
     if (!data) {
         return (
             <>
@@ -40,7 +52,16 @@ function WeatherWidget({location}) {
         );
     }
 
-    console.log('render occurred')
+    if(isError) {
+        return (
+            <>
+            <h3>Error: Please Enter a Valid City Name</h3>
+            </>
+        );
+        
+    }
+
+
     return (
         <div>
             <div className="weather loading">
@@ -56,6 +77,5 @@ function WeatherWidget({location}) {
             </div>
         </div>
     )
-
 }
 export default WeatherWidget

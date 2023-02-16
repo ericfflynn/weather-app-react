@@ -32,11 +32,21 @@ function WeatherApp() {
         function getBackground(query) {
             let citySearch = query.replace(/\s/g,"+");
             let endpoint= `https://api.unsplash.com/photos/random/?client_id=${clientID}&query=${citySearch}`;
-            
+
             fetch(endpoint) 
-            .then(res => res.json())
-            .then(jsonData => setBackground(jsonData.urls.regular));
-            console.log("Background Updated")
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                throw new Error("Invalid Request")
+            })
+            .then(jsonData => {
+                setBackground(jsonData.urls.regular);
+                console.log("Background Updated");
+            })
+            .catch((error) => {
+                console.log("Background Not Updated: Bad request")
+            })
         };
         if (!location) {
             getBackground("landscape")
