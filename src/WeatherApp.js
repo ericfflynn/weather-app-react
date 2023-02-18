@@ -74,6 +74,7 @@ function WeatherApp() {
                         className="search-bar" 
                         placeholder="Search" 
                         id="search" 
+                        autoComplete='off'
                         ref={locationInput}
                         onKeyDown={handleEnter}
                         onFocus={clearInput}
