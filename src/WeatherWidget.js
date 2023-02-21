@@ -22,7 +22,7 @@ function WeatherWidget({location}) {
     useEffect (() => {
         const apiKey = config.apiKey;
         function fetchWeather(city) {
-            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`)
+            fetch(`http://localhost:5001/weather/${city}`)
             .then(res => {
                 if (res.ok) {
                     return res.json();
