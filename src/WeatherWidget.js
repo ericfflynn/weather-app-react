@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import config from './config.js'
+
 
 function WeatherWidget({location}) {
 
@@ -20,7 +20,6 @@ function WeatherWidget({location}) {
     };
 
     useEffect (() => {
-        const apiKey = config.apiKey;
         function fetchWeather(city) {
             fetch(`http://localhost:5001/weather/${city}`)
             .then(res => {

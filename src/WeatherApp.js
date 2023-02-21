@@ -1,6 +1,5 @@
 import {useState, useRef, useEffect} from 'react';
 import WeatherWidget from './WeatherWidget'
-import config from './config'
 
 function WeatherApp() {
     
@@ -28,12 +27,8 @@ function WeatherApp() {
     };
 
     useEffect (() => {
-        const clientID = config.clientID;
         function getBackground(query) {
-            let citySearch = query.replace(/\s/g,"+");
-            let endpoint= `https://api.unsplash.com/photos/random/?client_id=${clientID}&query=${citySearch}`;
-
-            fetch(endpoint) 
+            fetch(`http://localhost:5001/background/${query}`) 
             .then(res => {
                 if (res.ok) {
                     return res.json();
