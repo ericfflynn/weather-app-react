@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-
+const api = process.env.REACT_APP_API_ENDPOINT;
 
 function WeatherWidget({location}) {
 
@@ -21,7 +21,7 @@ function WeatherWidget({location}) {
 
     useEffect (() => {
         function fetchWeather(city) {
-            fetch(`http://localhost:5001/weather/${city}`)
+            fetch(api+'/weather/'+city)
             .then(res => {
                 if (res.ok) {
                     return res.json();

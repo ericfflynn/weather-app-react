@@ -1,6 +1,8 @@
 import {useState, useRef, useEffect} from 'react';
 import WeatherWidget from './WeatherWidget'
 
+
+const api = process.env.REACT_APP_API_ENDPOINT;
 function WeatherApp() {
     
     const [location, setlocation] = useState('');
@@ -28,7 +30,7 @@ function WeatherApp() {
 
     useEffect (() => {
         function getBackground(query) {
-            fetch(`http://localhost:5001/background/${query}`) 
+            fetch(api+'/background/'+query) 
             .then(res => {
                 if (res.ok) {
                     return res.json();
